@@ -1,0 +1,685 @@
+
+
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+####################### constants
+
+array<string>responsekeys[37]={"1","2","3","4","5","6","7","8","9","0",   "q","w","e","r","t","y","u","i","o","p","a","s","d","f","g","h","j","k","l",
+"z","x","c","v","b","n","m","/"};
+
+array<string>t1stims[60]={ # always 12 characters long
+"111111111111","222222222222","333333333333","444444444444","555555555555","666666666666","777777777777","888888888888","999999999999","000000000000",
+"111111111111","222222222222","333333333333","444444444444","555555555555","666666666666","777777777777","888888888888","999999999999","000000000000",
+"111111111111","222222222222","333333333333","444444444444","555555555555","666666666666","777777777777","888888888888","999999999999","000000000000",
+"111111111111","222222222222","333333333333","444444444444","555555555555","666666666666","777777777777","888888888888","999999999999","000000000000",
+"111111111111","222222222222","333333333333","444444444444","555555555555","666666666666","777777777777","888888888888","999999999999","000000000000",
+"111111111111","222222222222","333333333333","444444444444","555555555555","666666666666","777777777777","888888888888","999999999999","000000000000"};
+
+array<string>fillerwords[78]={"ERADICATE", "LOGROLLING", "AMPHITHEATER", "ESTABLISHMENT", "MERETRICIOUS", "ANTHROPOLOGY", "EXCEEDINGLY", "MOTORCYCLE", "BEATIFICATION", "EXIGENCIES", "OBSERVATORY", "BIOGRAPHY", "EXTRAPOLATION", "ORGANIZATION", "BOOTSTRAPPING", "FERTILIZER", "OSCILLATION", "BUSINESSMAN", "FORESHADOW", "PERTURBATIONS", "CHRYSANTHEMUM", "FURTHERMORE", "PONTIFICATION", "CIRCUMFERENCE", "GENERALIZATION", "PURIFICATION", "CLASSIFICATION", "GLOBALIZATION", "SIMULTANEOUS", "COMEDIAN", "GOVERNMENT", "SINUSOIDAL", "CONDENSATION", "HALLUCINATION", "SOUNDLEVEL", "CONFEDERATION", "HANDKERCHIEF", "TABLEWARES", "CONGREGATION", "HIEROGLYPHIC", "THOROUGHBRED", "CONTORTIONIST", "HOUSEKEEPER", "THOUROUGHLY", "DELETERIOUS", "HOUSESITTER", "THREADBARE", "DELICATESSEN", "HUMMINGBIRD", "TIDDLYWINKS", "DEMOGRAPHICS", "HYPOTHETICAL", "TOPOGRAPHY", "DEMYSTIFY", "ILLUMINATION", "TOURNAMENT", "DICTIONARY", "INCOMPREHENSIBLE", "TRANSPORTATION", "DIFFERENTIATION", "INTELLECTUALISM", "UPHOLSTERY", "DISAMBIGUATE", "INTERNALIZATION", "WINDSHIELD", "DISAPPEARANCE", "INVESTIGATION", "WINTERLAND", "DESCRIPTION", "IRREPROACHABLE", "DISINTEGRATE", "IRRESPECTIVE", "EMULATION", "JOURNEYMAN", "ENCYCLOPEDIA", "JUSTIFICATION", "ENTREPRENEUR", "KALEIDOSCOPE"};
+array<string>neutralwords[28][6]={ # 1st column for T2 word presented, later columns for responses acceptable as correct in scoring
+{"COLLECTION","collection","collections","collection","collection","collection"},
+{"EQUIVALENT","equivalent","equivalents","equivalent","equivalent","equivalent"},
+{"DECORATE","decorate","decorated","decorate","decorate","decorate"},
+{"CALCULATOR","calculator","calculater","calculator","calculator","calculator"},
+{"DIRECTION","direction","directions","direction","direction","direction"},
+{"CONTAINER","container","containers","container","container","container"},
+{"MACHINERY","machinery","machines","machiny","machinery","machinery"},
+{"INTUITION","intuition","intuitions","intuition","intuition","intuition"}, 
+{"GEOGRAPHY","geography","geographer","geografy","geography","geography"},
+{"BOOKSHELF","bookshelf","bookshelves","bookshelf","bookshelf","bookshelf"},
+{"SHOP","shop","shops","shop","shop","shop"},
+{"PAINT","paint","paints","paint","paint","paint"},
+{"DOWNLOAD","download","downloads","download","download","download"},
+{"OPTIONAL","optional","options","optinal","optional","optional"},
+{"OVERALLS","overalls","overall","overalls","overalls","overalls"},
+{"TUTELAGE","tutelage","tutelage","tutledge","tutelage","tutelage"},
+{"BOTTLE","bottle","bottles","bottle","bottle","bottle"},
+{"HAMMER","hammer","hammers","hammer","hammer","hammer"},
+{"PENCIL","pencil","pencils","pencil","pencil","pencil"},
+{"SLEEVE","sleeve","sleeves","sleev","sleeve","sleeve"},
+{"MIXING","mixing","mixing","mixing","mixing","mixing"},
+{"KETTLE","kettle","kettles","kettle","kettle","kettle"},
+{"PACKET","packet","packets","packet","packet","packet"},
+{"PUDDLE","puddle","puddles","puddle","puddle","puddle"},
+{"LOWER","lower","lowers","lower","lower","lower"},
+{"CABLE","cable","cables","cable","cable","cable"},
+{"UPPER","upper","upper","upper","upper","upper"},
+{"LOCK","lock","locks","lock","lock","lock"}};
+
+array<string>climatewords[28][6]={
+{"GASOLINE",	"gasoline",			"gazoline",		"gasoline","gasoline","gasoline"},
+{"OIL",			"oil",				"oils",			"oil","oil","oil"},
+{"STORM",		"storm",				"storms",		"storm","storm","storm"},
+{"EXTREME",		"extreme",			"extremes",		"extreme","extreme","extreme"},
+{"RESOURCES",	"resources",		"resource",		"reources","resources","resources"},
+{"HURRICANE",	"hurricane",		"hurricanes",	"hurricane","hurricane","hurricane"},
+{"MELTING",		"melting",			"melting",		"melting","melting","melting"},
+{"GLOBAL",		"global",			"global",		"globe","global","global"},
+{"FLOODING",	"flooding",			"flooded",		"flood","flooding","flooding"},
+{"CO2",			"co2",				"c02",			"co2","co2","co2"}, 
+{"CARBON",		"carbon",			"carbons",		"carbon","carbon","carbon"},
+{"WARMING",		"warming",			"warming",		"warm","warming","warming" },
+{"CLIMATE",		"climate",			"climates",		"climate","climate","climate"},
+{"DRILLING",	"drilling",			"driling",		"dril","drilling","drilling"},
+{"HABITATS",	"habitats",			"habitat",		"habitate","habitata"},
+{"OZONE",		"ozone",				"ozones",		"ozone","ozone","ozone"},
+{"TYPHOON",		"typhoon",			"typhoons",		"typhoon","typhoon","typhoon"},
+{"DROUGHT",		"drought",			"droughts",		"drought","drought","drought"},
+{"FOOTPRINT",	"footprint",		"footprints",	"footprint","footprint","footprint"},
+{"POLLUTION",	"pollution",		"polution",		"polliton","polution","pollute"},
+{"DIOXIDE",		"dioxide",			"dioxides",		"dixide","dioxide","dioxide"},
+{"WILDFIRE",	"wildfire",			"wildfires",	"wildfire","wildfire","wildfire"}, 
+{"RAINSTORM",	"rainstorm",		"rainstorms",	"rainstorm","rainstorm","rainstorm"},
+{"GLACIER",		"glacier",			"glaciers",		"glaseior","glaicher","glarcier"},
+{"EMISSIONS",	"emissions",		"emission",		"emmition","emmission","emition"},
+{"DEPLETION",	"depletion",		"depleted",		"deplete","depletion","depletion"},
+{"HYDROCARBON","hydrocarbon",		"hydrocarbons","hydrocarbon","hydrocarbon","hydrocarbon"},
+{"EARTH",		"earth",				"earths",		"earth","earth","earth"}};
+
+# randomized across the 28 T2 words within each word category (climate or neutral)
+array<int>climate_t1positions[4*7]={3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6};
+array<int>climate_lags[4*7]=		  {1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7};
+array<int>neutral_t1positions[4*7]={3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6,    3,4,5,6};
+array<int>neutral_lags[4*7]=		  {1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7,    1,2,4,7};
+
+array<string>wordcategory[28*2]={
+"c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c",
+"n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n"};
+
+
+array<string>practicewords[32][2]={
+{"NORMAN", "norman"},
+{"ALISON", "alison"},
+{"JOHN", "john"},
+{"JOSHUA", "joshua"},
+{"KATE", "kate"},
+{"ANDREA", "andrea"},
+{"LINDA", "linda"},
+{"GARY", "gary"},
+{"WILLIAM", "william"},
+{"ADAM", "adam"},
+{"MAXINE", "maxine"},
+{"LEONARD", "leonard"},
+{"BARBARA", "barbara"},
+{"ANNE", "anne"},
+{"PATRICK", "patrick"},
+{"DAVID", "david"},
+{"EVE", "eve"},
+{"ANDREA", "andrea"},
+{"SARA", "sara"},
+{"JUDY", "judy"},
+{"DEBBIE", "debbie"},
+{"MELANIE", "melanie"},
+{"MORRIS", "morris"},
+{"CHRIS", "chris"},
+{"JAY", "jay"},
+{"FERGUS", "fergus"},
+{"GEORGE", "george"},
+{"MARTHA", "martha"},
+{"TRACEY", "tracey"},
+{"MICHAEL", "michael"},
+{"MARION", "marion"},
+{"TYLER","tyler"}};
+
+# During titration, the first two trials are set at an SOA of 150.
+# Then the for the following 30 trials, we have 6 trials at each of the 5 SOAs.
+
+
+array<int>soas[5]={116,133,150,166,183}; # These work out with a 60 Hz screen refresh rate. - BUT, we have to subtract a few ms (further down in the code) to avoid anything lasting for an extra screen refresh.
+#array<int>soas[5]={83,100,116,133,150}; # because accuracy was outrageously high on the first 23 ppts in the first version of this on presentation (i.e. mostly getting above 90% at Lag 1).
+
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+######################  variables
+
+array<string>targets_experimental_block[28*2][7]; #[4]; # column 1 for T1 string (e.g. "2222..."), column 2 for T2 (e.g. "CLIMATE" or "DECORATE"), columns 3 and 4 etc for possible correct responses
+array<int>target_positions_experimental_block[28*2][2]; # col 1 for T1 pos, col 2 for lag
+
+int i; # used in several different loops, always with the initial value reset by that loop. Just defined here so I don't have to keep track of the first place I type 'int i=1' instead of i=1
+int s;
+string resp_string="";
+string respminuslastletter="";
+int last_button=5; # nothing special about 5 - just has to be initialized to something
+int trl=1;
+int respdone=0;
+int current_letter_num=0; 
+int lag;
+int t1pos;
+int t2pos; # t1pos + lag
+int num_words_current_trial;
+int SOA=999; # the SOA chosen after the practice block titration
+
+int t1corr_current_trial=0; # 1 for correct, 0 for incorrect
+ 
+int RSVP_length_current_trial=99; # will vary from 3+1+11 to 6+7+11. RSVP items after this will have the text set to " " and the duration set to 1 ms, and the deltats adjusted accordingly.
+array<string>words_current_trial[24]={" "," "," "," "," "," ",    " "," "," "," "," "," ",    " "," "," "," "," "," ",    " "," "," "," "," "," "    };
+
+array<int>SOAs_current_trial[24]={99,99,99,99,99,99,     99,99,99,99,99,99,     99,99,99,99,99,99,     99,99,99,99,99,999     };
+array<int>deltats_current_trial[24]={99999,    99,99,99,99,99,     99,99,99,99,99,99,     99,99,99,99,99,99,     99,99,99,99,99,999     };
+# First number in array of deltats is never used, because there's no deltat specified for the first event in a trial,
+# but it's easier to code & debug if the array index and number in the event name match up.
+array<int>font_colours_current_trial[24][3]={
+{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},      {0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},
+{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},      {0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}};
+# Note that there's no deltat to set for the first of the 24 events in the RSVP stream.
+
+
+# for the first two practice trials, SOA is set at 150. 
+array<int>practice_trials_3to32[30][3]={ # SOA, t1pos (3,4, or 5 for titration), lag (always 7 for titration)
+{116,3,7}, {133,3,7}, {150,3,7}, {166,3,7}, {183,3,7}, 
+{116,3,7}, {133,3,7}, {150,3,7}, {166,3,7}, {183,3,7},
+{116,4,7}, {133,4,7}, {150,4,7}, {166,4,7}, {183,4,7}, 
+{116,4,7}, {133,4,7}, {150,4,7}, {166,4,7}, {183,4,7}, 
+{116,5,7}, {133,5,7}, {150,5,7}, {166,5,7}, {183,5,7}, 
+{116,5,7}, {133,5,7}, {150,5,7}, {166,5,7}, {183,5,7}};
+#array<int>soas[5]={83,100,116,133,150};
+#{83,3,7}, {100,3,7}, {116,3,7}, {133,3,7}, {150,3,7}, 
+#{83,3,7}, {100,3,7}, {116,3,7}, {133,3,7}, {150,3,7},
+#{83,4,7}, {100,4,7}, {116,4,7}, {133,4,7}, {150,4,7}, 
+#{83,4,7}, {100,4,7}, {116,4,7}, {133,4,7}, {150,4,7}, 
+#{83,5,7}, {100,5,7}, {116,5,7}, {133,5,7}, {150,5,7}, 
+#{83,5,7}, {100,5,7}, {116,5,7}, {133,5,7}, {150,5,7}};
+
+array<int>practice_trials[32][3]; # SOA, t1pos (3,4, or 5 for titration), lag (always 7 for titration)
+practice_trials_3to32.shuffle();
+practice_trials[1][1]=soas[3]; practice_trials[1][2]=3; practice_trials[1][3]=7; 
+practice_trials[2][1]=soas[3]; practice_trials[2][2]=4; practice_trials[2][3]=7;
+loop i=1 until i > 30 begin
+	practice_trials[i+2][1]=practice_trials_3to32[i][1];
+	practice_trials[i+2][2]=practice_trials_3to32[i][2];
+	practice_trials[i+2][3]=practice_trials_3to32[i][3];
+	i=i+1;
+end;
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+########################################################################
+sub setup_experimental_block begin
+
+t1stims.shuffle();
+wordcategory.shuffle();
+climatewords.shuffle();
+neutralwords.shuffle();
+
+climate_t1positions.shuffle();
+climate_lags.shuffle();
+neutral_t1positions.shuffle();
+neutral_lags.shuffle();
+
+int c_counter=1;
+int n_counter=1;
+loop i=1 until i > 28*2 begin
+	targets_experimental_block[i][1]=t1stims[i];
+	if wordcategory[i]=="c" then
+		targets_experimental_block[i][2]=climatewords[c_counter][1];
+		targets_experimental_block[i][3]=climatewords[c_counter][2];
+		targets_experimental_block[i][4]=climatewords[c_counter][3];
+		targets_experimental_block[i][5]=climatewords[c_counter][4];
+		targets_experimental_block[i][6]=climatewords[c_counter][5];
+		targets_experimental_block[i][7]=climatewords[c_counter][6];
+		target_positions_experimental_block[i][1]=climate_t1positions[c_counter];
+		target_positions_experimental_block[i][2]=climate_lags[c_counter];
+		c_counter=c_counter+1;
+	elseif wordcategory[i]=="n" then
+		targets_experimental_block[i][2]=neutralwords[n_counter][1];
+		targets_experimental_block[i][3]=neutralwords[n_counter][2];
+		targets_experimental_block[i][4]=neutralwords[n_counter][3];
+		targets_experimental_block[i][5]=neutralwords[n_counter][4];
+		targets_experimental_block[i][6]=neutralwords[n_counter][5];
+		targets_experimental_block[i][7]=neutralwords[n_counter][6];
+		target_positions_experimental_block[i][1]=neutral_t1positions[n_counter];
+		target_positions_experimental_block[i][2]=neutral_lags[n_counter];
+		n_counter=n_counter+1;
+	end;
+	i=i+1;
+end;
+
+end;
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+########################################################################
+sub prompt_for_text_input begin
+
+current_letter_num=1; #0; #1;
+respminuslastletter="";
+resp_string="";
+#textinput_txt.set_caption("Please type in the second target \n and then press the <ENTER> key");
+#textinput_txt.redraw();
+
+array<string>letterstyped[20]={ # max word length in response, 20 letters
+"","","","","",     "","","","","",
+"","","","","",     "","","","",""};
+
+	loop respdone=0 until respdone>0 begin
+		
+		textinput_trial.present();
+		last_button=response_manager.last_response();
+				
+		if last_button < 38 then
+			letterstyped[current_letter_num]=responsekeys[last_button];			
+			resp_string=(resp_string+responsekeys[last_button]);
+			textinput_txt.set_caption(resp_string);
+			textinput_txt.redraw();
+			current_letter_num=current_letter_num+1;
+			
+		elseif last_button==38 then # enter key
+			respdone=1;
+
+		elseif last_button==39 && current_letter_num > 1 then # backspace
+				respminuslastletter="";
+				loop int ltr=1 until ltr > current_letter_num-1 begin
+					respminuslastletter=(respminuslastletter+letterstyped[ltr]);
+					ltr=ltr+1;					
+				end;
+				textinput_txt.set_caption(respminuslastletter);
+				textinput_txt.redraw();
+				resp_string=respminuslastletter; 
+				current_letter_num=current_letter_num-1;				
+				
+		elseif last_button==39 && current_letter_num <= 1 then # backspace
+					respminuslastletter="";
+					resp_string="";
+					textinput_txt.set_caption(" ");
+					textinput_txt.redraw();
+					letterstyped[1]="";
+		
+		end; # end if about last resp button 
+
+	end; # end resp done loop
+	saveT2responsetologfile_event.set_event_code(resp_string);
+end; # end sub
+
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+sub makeRSVPstream begin # basically needed because SDL arrays are cumbersome
+word1_txt.set_caption(words_current_trial[1]);  word1_event.set_event_code(words_current_trial[1]);  word1_txt.set_font_color(font_colours_current_trial[1][1],font_colours_current_trial[1][2],font_colours_current_trial[1][3]); word1_txt.redraw();
+word2_txt.set_caption(words_current_trial[2]);  word2_event.set_event_code(words_current_trial[2]);  word2_txt.set_font_color(font_colours_current_trial[2][1],font_colours_current_trial[2][2],font_colours_current_trial[2][3]); word2_txt.redraw();
+word3_txt.set_caption(words_current_trial[3]);  word3_event.set_event_code(words_current_trial[3]);  word3_txt.set_font_color(font_colours_current_trial[3][1],font_colours_current_trial[3][2],font_colours_current_trial[3][3]); word3_txt.redraw();
+word4_txt.set_caption(words_current_trial[4]);  word4_event.set_event_code(words_current_trial[4]);  word4_txt.set_font_color(font_colours_current_trial[4][1],font_colours_current_trial[4][2],font_colours_current_trial[4][3]); word4_txt.redraw();
+word5_txt.set_caption(words_current_trial[5]);  word5_event.set_event_code(words_current_trial[5]);  word5_txt.set_font_color(font_colours_current_trial[5][1],font_colours_current_trial[5][2],font_colours_current_trial[5][3]); word5_txt.redraw();
+word6_txt.set_caption(words_current_trial[6]);  word6_event.set_event_code(words_current_trial[6]);  word6_txt.set_font_color(font_colours_current_trial[6][1],font_colours_current_trial[6][2],font_colours_current_trial[6][3]); word6_txt.redraw();
+word7_txt.set_caption(words_current_trial[7]);  word7_event.set_event_code(words_current_trial[7]);  word7_txt.set_font_color(font_colours_current_trial[7][1],font_colours_current_trial[7][2],font_colours_current_trial[7][3]); word7_txt.redraw();
+word8_txt.set_caption(words_current_trial[8]);  word8_event.set_event_code(words_current_trial[8]);  word8_txt.set_font_color(font_colours_current_trial[8][1],font_colours_current_trial[8][2],font_colours_current_trial[8][3]); word8_txt.redraw();
+word9_txt.set_caption(words_current_trial[9]);  word9_event.set_event_code(words_current_trial[9]);  word9_txt.set_font_color(font_colours_current_trial[9][1],font_colours_current_trial[9][2],font_colours_current_trial[9][3]); word9_txt.redraw();
+word10_txt.set_caption(words_current_trial[10]); word10_event.set_event_code(words_current_trial[10]);  word10_txt.set_font_color(font_colours_current_trial[10][1],font_colours_current_trial[10][2],font_colours_current_trial[10][3]); word10_txt.redraw();
+word11_txt.set_caption(words_current_trial[11]); word11_event.set_event_code(words_current_trial[11]);  word11_txt.set_font_color(font_colours_current_trial[11][1],font_colours_current_trial[11][2],font_colours_current_trial[11][3]); word11_txt.redraw();
+word12_txt.set_caption(words_current_trial[12]); word12_event.set_event_code(words_current_trial[12]);  word12_txt.set_font_color(font_colours_current_trial[12][1],font_colours_current_trial[12][2],font_colours_current_trial[12][3]); word12_txt.redraw();
+word13_txt.set_caption(words_current_trial[13]); word13_event.set_event_code(words_current_trial[13]);  word13_txt.set_font_color(font_colours_current_trial[13][1],font_colours_current_trial[13][2],font_colours_current_trial[13][3]); word13_txt.redraw();
+word14_txt.set_caption(words_current_trial[14]); word14_event.set_event_code(words_current_trial[14]);  word14_txt.set_font_color(font_colours_current_trial[14][1],font_colours_current_trial[14][2],font_colours_current_trial[14][3]); word14_txt.redraw();
+word15_txt.set_caption(words_current_trial[15]); word15_event.set_event_code(words_current_trial[15]);  word15_txt.set_font_color(font_colours_current_trial[15][1],font_colours_current_trial[15][2],font_colours_current_trial[15][3]); word15_txt.redraw();
+word16_txt.set_caption(words_current_trial[16]); word16_event.set_event_code(words_current_trial[16]);  word16_txt.set_font_color(font_colours_current_trial[16][1],font_colours_current_trial[16][2],font_colours_current_trial[16][3]); word16_txt.redraw();
+word17_txt.set_caption(words_current_trial[17]); word17_event.set_event_code(words_current_trial[17]);  word17_txt.set_font_color(font_colours_current_trial[17][1],font_colours_current_trial[17][2],font_colours_current_trial[17][3]); word17_txt.redraw();
+word18_txt.set_caption(words_current_trial[18]); word18_event.set_event_code(words_current_trial[18]);  word18_txt.set_font_color(font_colours_current_trial[18][1],font_colours_current_trial[18][2],font_colours_current_trial[18][3]); word18_txt.redraw();
+word19_txt.set_caption(words_current_trial[19]); word19_event.set_event_code(words_current_trial[19]);  word19_txt.set_font_color(font_colours_current_trial[19][1],font_colours_current_trial[19][2],font_colours_current_trial[19][3]); word19_txt.redraw();
+word20_txt.set_caption(words_current_trial[20]); word20_event.set_event_code(words_current_trial[20]);  word20_txt.set_font_color(font_colours_current_trial[20][1],font_colours_current_trial[20][2],font_colours_current_trial[20][3]); word20_txt.redraw();
+word21_txt.set_caption(words_current_trial[21]); word21_event.set_event_code(words_current_trial[21]);  word21_txt.set_font_color(font_colours_current_trial[21][1],font_colours_current_trial[21][2],font_colours_current_trial[21][3]); word21_txt.redraw();
+word22_txt.set_caption(words_current_trial[22]); word22_event.set_event_code(words_current_trial[22]);  word22_txt.set_font_color(font_colours_current_trial[22][1],font_colours_current_trial[22][2],font_colours_current_trial[22][3]); word22_txt.redraw();
+word23_txt.set_caption(words_current_trial[23]); word23_event.set_event_code(words_current_trial[23]);  word23_txt.set_font_color(font_colours_current_trial[23][1],font_colours_current_trial[23][2],font_colours_current_trial[23][3]); word23_txt.redraw();
+word24_txt.set_caption(words_current_trial[24]); word24_event.set_event_code(words_current_trial[24]);  word24_txt.set_font_color(font_colours_current_trial[24][1],font_colours_current_trial[24][2],font_colours_current_trial[24][3]); word24_txt.redraw();
+
+# need to subtract a few ms from requested durations & deltats so that the actual durations match the requested durations and don't end up with an extra screen refresh
+int decrement=3; # with it set to 5, some 150s turned into 133 in main expt block 1. # try a few values for decrement until it always comes out right in the logfiles, at all SOAs. One screen refresh takes 16.7 ms at 60 Hz, so it should definitely be less than 16 (otherwise it might be one screen refresh too fast!).
+loop int e=1 until e > 24 begin
+	if SOAs_current_trial[e] > decrement+1 then # skip the last few events, which are set to a blank screen and duration of 1.
+		SOAs_current_trial[e]=SOAs_current_trial[e]-decrement;
+	end;
+	e=e+1; 
+end;
+loop int e=2 until e > 24 begin	
+	if deltats_current_trial[e] > decrement+1 then
+		deltats_current_trial[e]=deltats_current_trial[e]-decrement;
+	end;
+	e=e+1; 
+end;
+
+word1_event.set_duration(SOAs_current_trial[1]);	
+word2_event.set_duration(SOAs_current_trial[2]);	word2_event.set_deltat(deltats_current_trial[2]);	
+word3_event.set_duration(SOAs_current_trial[3]);	word3_event.set_deltat(deltats_current_trial[3]);	
+word4_event.set_duration(SOAs_current_trial[4]);	word4_event.set_deltat(deltats_current_trial[4]);	
+word5_event.set_duration(SOAs_current_trial[5]);	word5_event.set_deltat(deltats_current_trial[5]);	
+word6_event.set_duration(SOAs_current_trial[6]);	word6_event.set_deltat(deltats_current_trial[6]);	
+word7_event.set_duration(SOAs_current_trial[7]);	word7_event.set_deltat(deltats_current_trial[7]);	
+word8_event.set_duration(SOAs_current_trial[8]);	word8_event.set_deltat(deltats_current_trial[8]);	
+word9_event.set_duration(SOAs_current_trial[9]);	word9_event.set_deltat(deltats_current_trial[9]);	
+word10_event.set_duration(SOAs_current_trial[10]);	word10_event.set_deltat(deltats_current_trial[10]);
+word11_event.set_duration(SOAs_current_trial[11]);	word11_event.set_deltat(deltats_current_trial[11]);
+word12_event.set_duration(SOAs_current_trial[12]);	word12_event.set_deltat(deltats_current_trial[12]);
+word13_event.set_duration(SOAs_current_trial[13]);	word13_event.set_deltat(deltats_current_trial[13]);
+word14_event.set_duration(SOAs_current_trial[14]);	word14_event.set_deltat(deltats_current_trial[14]);
+word15_event.set_duration(SOAs_current_trial[15]);	word15_event.set_deltat(deltats_current_trial[15]);
+word16_event.set_duration(SOAs_current_trial[16]);	word16_event.set_deltat(deltats_current_trial[16]);
+word17_event.set_duration(SOAs_current_trial[17]);	word17_event.set_deltat(deltats_current_trial[17]);
+word18_event.set_duration(SOAs_current_trial[18]);	word18_event.set_deltat(deltats_current_trial[18]);
+word19_event.set_duration(SOAs_current_trial[19]);	word19_event.set_deltat(deltats_current_trial[19]);
+word20_event.set_duration(SOAs_current_trial[20]);	word20_event.set_deltat(deltats_current_trial[20]);
+word21_event.set_duration(SOAs_current_trial[21]);	word21_event.set_deltat(deltats_current_trial[21]);
+word22_event.set_duration(SOAs_current_trial[22]);	word22_event.set_deltat(deltats_current_trial[22]);
+word23_event.set_duration(SOAs_current_trial[23]);	word23_event.set_deltat(deltats_current_trial[23]);
+word24_event.set_duration(SOAs_current_trial[24]);	word24_event.set_deltat(deltats_current_trial[24]);
+
+end;
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+####################### EXPERIMENT STARTS HERE ##################################################################
+#################################################################################################################
+
+instructions0_trial.present();
+
+textinput_txt.set_caption("Please type in your age \n and then press the <ENTER> key");
+textinput_txt.redraw();
+prompt_for_text_input();
+saveT2responsetologfile_event.set_event_code("age_"+resp_string);
+saveT2responsetologfile_trial.present();
+
+textinput_txt.set_caption("Please type in your gender (m/f/other..) \n and then press the <ENTER> key");
+textinput_txt.redraw();
+prompt_for_text_input();
+saveT2responsetologfile_event.set_event_code("gender_"+resp_string);
+saveT2responsetologfile_trial.present();
+
+instructions1_trial.present();
+word14_txt.set_font_color(0,128,0); word14_txt.redraw();
+AB_trial.present();
+instructions2_trial.present();
+
+textinput_txt.set_caption("Please type in the second target \n and then press the <ENTER> key");
+textinput_txt.redraw();
+### add code for practice block & SOA titration here...
+############################################################################################################
+############################################################################################################
+############################################################################################################
+############################################################################################################
+############################################################################################################
+############################################################################################################
+######################################## practice block - AKA soa titration block ##########################
+# SOA used should be 16.6 plus the fastest soa for which ppts responded > 80% accuracty on T2 for lag 7. 
+t1stims.shuffle();
+practicewords.shuffle();
+
+
+array<int>SOAcorr_tallies[5]={0,0,0,0,0};
+
+#array<int>practice_trials[32][3] # SOA, t1pos (3,4, or 5 for titration), lag (always 7 for titration)
+loop int practicetrl=1 until practicetrl > 32 begin
+
+		loop i=1 until i>24 begin
+			SOAs_current_trial[i]=practice_trials[practicetrl][1];
+			i=i+1;
+		end;
+		loop i=2 until i>24 begin
+			deltats_current_trial[i]=practice_trials[practicetrl][1];
+			i=i+1;
+		end;
+
+	t1pos=practice_trials[practicetrl][2];
+	lag=practice_trials[practicetrl][3];
+	t2pos=t1pos+lag;
+	num_words_current_trial=t2pos+11;
+	
+	fillerwords.shuffle();
+	loop i=1 until i>num_words_current_trial begin
+		words_current_trial[i]=fillerwords[i];
+		i=i+1;
+	end;
+	
+	words_current_trial[t1pos]=t1stims[practicetrl]; 
+	words_current_trial[t2pos]=practicewords[practicetrl][1];
+	font_colours_current_trial[t2pos][2]=128;
+	
+		loop i=num_words_current_trial+1 until i>24 begin
+		words_current_trial[i]=" ";
+		SOAs_current_trial[i]=1;
+			if i > num_words_current_trial+1 then
+				deltats_current_trial[i]=1;
+			end;
+	
+		i=i+1;
+	end;
+
+	makeRSVPstream();
+	textinput_txt.set_caption("Please type in the second target \n and then press the <ENTER> key");
+	textinput_txt.redraw();
+	AB_trial.present();
+
+	loop int j=1 until j > 24 begin # reset all words to black (so we don't end up with two green words next trial)
+		loop int k=1 until k > 3 begin
+			font_colours_current_trial[j][k]=0;
+			k=k+1;
+		end;
+		j=j+1;
+	end;
+	
+	waitfordigit_trial.present(); # for T1 input
+		string dig=t1stims[practicetrl];
+		int digresp=response_manager.last_response();
+	
+			if 	  (digresp==1 && dig=="111111111111"  )then t1corr_current_trial=1;
+			elseif  (digresp==2 && dig=="222222222222"  )then t1corr_current_trial=1;
+			elseif  (digresp==3 && dig=="333333333333"  )then t1corr_current_trial=1;
+			elseif  (digresp==4 && dig=="444444444444"  )then t1corr_current_trial=1;
+			elseif  (digresp==5 && dig=="555555555555"  )then t1corr_current_trial=1;
+			elseif  (digresp==6 && dig=="666666666666"  )then t1corr_current_trial=1;
+			elseif  (digresp==7 && dig=="777777777777"  )then t1corr_current_trial=1;
+			elseif  (digresp==8 && dig=="888888888888"  )then t1corr_current_trial=1;
+			elseif  (digresp==9 && dig=="999999999999"  )then t1corr_current_trial=1;
+			elseif  (digresp==10 && dig=="000000000000" )then t1corr_current_trial=1;
+			else
+				t1corr_current_trial=0;		
+			end;
+	prompt_for_text_input(); # for T2 input
+	saveT2responsetologfile_trial.present();
+	
+
+	if t1corr_current_trial==1 && resp_string==practicewords[practicetrl][2] then
+	#if resp_string==practicewords[practicetrl][2] then
+		loop s=1 until s > 5 begin
+			if practice_trials[practicetrl][1]==soas[s] then
+				SOAcorr_tallies[s]=SOAcorr_tallies[s]+1;
+			end;
+		s=s+1;
+		end;
+	end;
+	
+	term.print("\n\n******************************************************\n");
+	term.print("****"+" practice trial "+ string(practicetrl)+" ****\n");
+	term.print("******************************************************\n");
+	term.print("current SOA: "+string(practice_trials[practicetrl][1])+"\n");
+	term.print("******************************************************\n");
+	term.print("T1stim: "+dig+", T1resp: "+string(digresp)+" t1corr_current_trial: "+string(t1corr_current_trial)+"\n");
+	term.print("correctT2resp: "+practicewords[practicetrl][2]+"\n");
+	term.print("resp input: "+resp_string+"\n");
+	term.print("SOA 116: "+string(SOAcorr_tallies[1])+" "+"SOA 133: "+string(SOAcorr_tallies[2])+" "+"SOA 150: "+string(SOAcorr_tallies[3])+" "+"SOA 166: "+string(SOAcorr_tallies[4])+" "+"SOA 183: "+string(SOAcorr_tallies[5])+" \n");
+	#term.print("SOA 83: "+string(SOAcorr_tallies[1])+" "+"SOA 100: "+string(SOAcorr_tallies[2])+" "+"SOA 116: "+string(SOAcorr_tallies[3])+" "+"SOA 133: "+string(SOAcorr_tallies[4])+" "+"SOA 150: "+string(SOAcorr_tallies[5])+" \n");
+																																			
+	waitforspace_trial.present();
+	
+practicetrl=practicetrl+1;
+end;
+
+SOA=soas[5];
+loop s=1 until s>5 begin
+	double accuracy=SOAcorr_tallies[s]/6;
+	if accuracy > 0.80 then
+		SOA=soas[s];
+		s=6; # meaning done, don't need to search slower SOAs
+	end;
+	s=s+1;
+end;
+############################################################################################################
+############################################################################################################
+############################################################################################################
+############################################################################################################
+############################################################################################################
+############################################################################################################
+######################################## experimental blocks ###############################################
+
+int climate_lag1_corrcount=0;
+int climate_lag2_corrcount=0;
+int climate_lag4_corrcount=0;
+int climate_lag7_corrcount=0;
+int neutral_lag1_corrcount=0;
+int neutral_lag2_corrcount=0;
+int neutral_lag4_corrcount=0;
+int neutral_lag7_corrcount=0;
+
+loop i=1 until i>24 begin
+	SOAs_current_trial[i]=SOA;
+	i=i+1;
+end;
+loop i=2 until i>24 begin
+	deltats_current_trial[i]=SOA;
+	i=i+1;
+end;
+
+instructions3_trial.present();
+loop int block=1 until block > 2 begin
+
+	setup_experimental_block();
+
+	loop trl=1 until trl > 28*2 begin
+		
+	t1pos=target_positions_experimental_block[trl][1];
+	lag=target_positions_experimental_block[trl][2];
+	t2pos=t1pos+lag;
+	num_words_current_trial=t2pos+11;
+
+	fillerwords.shuffle();
+	loop i=1 until i>num_words_current_trial begin
+		words_current_trial[i]=fillerwords[i];
+		i=i+1;
+	end;
+	words_current_trial[t1pos]=targets_experimental_block[trl][1]; 
+	words_current_trial[t2pos]=targets_experimental_block[trl][2];
+	font_colours_current_trial[t2pos][2]=128;
+
+	loop i=num_words_current_trial+1 until i>24 begin
+		words_current_trial[i]=" ";
+		SOAs_current_trial[i]=1;
+			if i > num_words_current_trial+1 then
+				deltats_current_trial[i]=1;
+			end;
+	
+		i=i+1;
+	end;
+
+	makeRSVPstream();
+	textinput_txt.set_caption("Please type in the second target \n and then press the <ENTER> key");
+	textinput_txt.redraw();
+	AB_trial.present();
+
+	loop int j=1 until j > 24 begin # reset all words to black (so we don't end up with two green words next trial)
+		loop int k=1 until k > 3 begin
+			font_colours_current_trial[j][k]=0;
+			k=k+1;
+		end;
+		j=j+1;
+	end;
+
+		waitfordigit_trial.present(); # for T1 input
+		string dig=targets_experimental_block[i][1];
+		int digresp=response_manager.last_response();
+	
+
+		if 	  (digresp==1 && dig=="111111111111"  )then t1corr_current_trial=1;
+		elseif  (digresp==2 && dig=="222222222222"  )then t1corr_current_trial=1;
+		elseif  (digresp==3 && dig=="333333333333"  )then t1corr_current_trial=1;
+		elseif  (digresp==4 && dig=="444444444444"  )then t1corr_current_trial=1;
+		elseif  (digresp==5 && dig=="555555555555"  )then t1corr_current_trial=1;
+		elseif  (digresp==6 && dig=="666666666666"  )then t1corr_current_trial=1;
+		elseif  (digresp==7 && dig=="777777777777"  )then t1corr_current_trial=1;
+		elseif  (digresp==8 && dig=="888888888888"  )then t1corr_current_trial=1;
+		elseif  (digresp==9 && dig=="999999999999"  )then t1corr_current_trial=1;
+		elseif  (digresp==10 && dig=="000000000000" )then t1corr_current_trial=1;
+		else
+			t1corr_current_trial=0;		
+		end;
+			
+		prompt_for_text_input(); # for T2 input
+		saveT2responsetologfile_trial.present();
+		
+	
+		int t2correct=0;
+		loop int col=1 until col > 6 begin
+			if resp_string==targets_experimental_block[trl][col+1] then # plus 1 b/c the first column was t1
+				t2correct=1;
+			end;
+			col=col+1;
+		end;
+		if (wordcategory[trl]=="c" && target_positions_experimental_block[trl][2]==1 && t2correct==1 )then
+			climate_lag1_corrcount=climate_lag1_corrcount+1;
+		elseif (wordcategory[trl]=="c" && target_positions_experimental_block[trl][2]==2 && t2correct==1 )then
+			climate_lag2_corrcount=climate_lag2_corrcount+1;
+		elseif (wordcategory[trl]=="c" && target_positions_experimental_block[trl][2]==4 && t2correct==1 )then
+			climate_lag4_corrcount=climate_lag4_corrcount+1;
+		elseif (wordcategory[trl]=="c" && target_positions_experimental_block[trl][2]==7 && t2correct==1 )then
+			climate_lag7_corrcount=climate_lag7_corrcount+1;			
+		elseif (wordcategory[trl]=="n" && target_positions_experimental_block[trl][2]==1 && t2correct==1 )then
+			neutral_lag1_corrcount=neutral_lag1_corrcount+1;
+		elseif (wordcategory[trl]=="n" && target_positions_experimental_block[trl][2]==2 && t2correct==1 )then
+			neutral_lag2_corrcount=neutral_lag2_corrcount+1;
+		elseif (wordcategory[trl]=="n" && target_positions_experimental_block[trl][2]==4 && t2correct==1 )then
+			neutral_lag4_corrcount=neutral_lag4_corrcount+1;
+		elseif (wordcategory[trl]=="n" && target_positions_experimental_block[trl][2]==7 && t2correct==1 )then
+			neutral_lag7_corrcount=neutral_lag7_corrcount+1;
+		end;
+
+	term.print("\n\nBlock "+string(block)+", trial "+string(trl)+" SOA "+string(SOA)+"\n");
+	term.print("word category "+wordcategory[trl]+" Lag "+string(target_positions_experimental_block[trl][2])+"\n");
+	term.print("T1stim: "+dig+", T1resp: "+string(digresp)+" t1corr_current_trial: "+string(t1corr_current_trial)+"\n");
+	term.print("correctT2resps: "+targets_experimental_block[trl][3]+" "+targets_experimental_block[trl][4]+"\n");
+	term.print("resp input: "+resp_string+"\n");
+	term.print("climate_lag1_numcorrect_" + string(climate_lag1_corrcount)+"\n");
+	term.print("climate_lag2_numcorrect_" + string(climate_lag2_corrcount)+"\n");
+	term.print("climate_lag4_numcorrect_" + string(climate_lag4_corrcount)+"\n");
+	term.print("climate_lag7_numcorrect_" + string(climate_lag7_corrcount)+"\n");
+	term.print("neutral_lag1_numcorrect_" + string(neutral_lag1_corrcount)+"\n");
+	term.print("neutral_lag2_numcorrect_" + string(neutral_lag2_corrcount)+"\n");
+	term.print("neutral_lag4_numcorrect_" + string(neutral_lag4_corrcount)+"\n");
+	term.print("neutral_lag7_numcorrect_" + string(neutral_lag7_corrcount)+"\n");
+
+	waitforspace_trial.present();
+	
+	# reset SOAs & deltats to the real desired value, without the decrement, before the next trial (otherwise it'll get shorter each time makeRSVPstream is called, and gradually speed up across the block).
+	loop i=1 until i>24 begin
+		SOAs_current_trial[i]=SOA;
+		i=i+1;
+	end;
+	loop i=2 until i>24 begin
+		deltats_current_trial[i]=SOA;
+		i=i+1;
+	end;
+
+	trl=trl+1;
+	end; # end trl loop
+block=block+1;
+end;
+
+savetologfile_event.set_event_code("climate_lag1_numcorrect_" + string(climate_lag1_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("climate_lag2_numcorrect_" + string(climate_lag2_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("climate_lag4_numcorrect_" + string(climate_lag4_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("climate_lag7_numcorrect_" + string(climate_lag7_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("neutral_lag1_numcorrect_" + string(neutral_lag1_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("neutral_lag2_numcorrect_" + string(neutral_lag2_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("neutral_lag4_numcorrect_" + string(neutral_lag4_corrcount));
+savetologfile_trial.present();
+savetologfile_event.set_event_code("neutral_lag7_numcorrect_" + string(neutral_lag7_corrcount));
+savetologfile_trial.present();
+
+instructions_end_trial.present();

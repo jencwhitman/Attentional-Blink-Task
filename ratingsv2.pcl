@@ -1,0 +1,277 @@
+mouse mse = response_manager.get_mouse( 1 );
+
+###########################################################################################
+###########################################################################################
+###########################################################################################
+################################# constants ###############################################
+
+# pasted from sdl. need most of this for frequency estimation event
+int scale_y=0; #-50; 
+int middle_scale_x=0;
+int legend_x_off=140; 
+int question_x_off=105; 
+int scale_height=334; #'320+14'
+int scale_width=40;
+int scale_outer_xoffset=280; # for display with 7 scales for 7 frequency estimates
+int scale_inner_xoffset=140;
+int scale_far_outer_xoffset=420; # for display with 7 scales for 7 frequency estimates
+
+######################################
+
+int slider_outline=4;       # indices of slider picture parts
+int slider=5;
+
+int likert_scale_x=0;
+int likert_scale_y=0;
+
+#int middle_slider_outline=76;
+#int middle_slider=77;
+
+int slideroutlinepicpartnum=0;
+int slidernumpicpart=0;
+##########################
+
+#int continue_button_y=scale_y-7-7*(scale_height-14)/10; #scale_y-7-7*(scale_height-14)/10;
+#int continue_button_x=middle_scale_x+scale_far_outer_xoffset-50;
+
+##################################################################################################
+
+################################### variables ####################################################
+int w=99;
+string questiontxt="debug";
+string wordtorate="debug";
+
+int mousex=0;
+int mousey=0;
+
+int mouse_resp_y; # will be updated each time a mouse response is made
+
+int rt_start=0;
+int rt_end=0;
+int rt=0;
+
+int new_response_count = 0;
+int old_response_count = 0;
+int lastresp=1;
+
+int currentscalenum=0;
+########## for the 7 likert scale ratings
+
+int last_bettervsworserating=scale_y;
+
+##########################################################################################################
+##########################################################################################################
+
+array<string>ratingstomake[28*2*2][3]={ # word, actual word category, ratingtype (arousal vs. climate-relatedness)
+{"COLLECTION","n","arousal"},
+{"EQUIVALENT","n","arousal"},
+{"DECORATE","n","arousal"},
+{"CALCULATOR","n","arousal"},
+{"DIRECTION","n","arousal"},
+{"CONTAINER","n","arousal"},
+{"MACHINERY","n","arousal"},
+{"INTUITION","n","arousal"}, 
+{"GEOGRAPHY","n","arousal"},
+{"BOOKSHELF","n","arousal"},
+{"SHOP","n","arousal"},
+{"PAINT","n","arousal"},
+{"DOWNLOAD","n","arousal"},
+{"OPTIONAL","n","arousal"},
+{"OVERALLS","n","arousal"},
+{"TUTELAGE","n","arousal"},
+{"BOTTLE","n","arousal"},
+{"HAMMER","n","arousal"},
+{"PENCIL","n","arousal"},
+{"SLEEVE","n","arousal"},
+{"MIXING","n","arousal"},
+{"KETTLE","n","arousal"},
+{"PACKET","n","arousal"},
+{"PUDDLE","n","arousal"},
+{"LOWER","n","arousal"},
+{"CABLE","n","arousal"},
+{"UPPER","n","arousal"},
+{"LOCK","n","arousal"},
+{"COLLECTION","n","climaterelatedness"},
+{"EQUIVALENT","n","climaterelatedness"},
+{"DECORATE","n","climaterelatedness"},
+{"CALCULATOR","n","climaterelatedness"},
+{"DIRECTION","n","climaterelatedness"},
+{"CONTAINER","n","climaterelatedness"},
+{"MACHINERY","n","climaterelatedness"},
+{"INTUITION","n","climaterelatedness"}, 
+{"GEOGRAPHY","n","climaterelatedness"},
+{"BOOKSHELF","n","climaterelatedness"},
+{"SHOP","n","climaterelatedness"},
+{"PAINT","n","climaterelatedness"},
+{"DOWNLOAD","n","climaterelatedness"},
+{"OPTIONAL","n","climaterelatedness"},
+{"OVERALLS","n","climaterelatedness"},
+{"TUTELAGE","n","climaterelatedness"},
+{"BOTTLE","n","climaterelatedness"},
+{"HAMMER","n","climaterelatedness"},
+{"PENCIL","n","climaterelatedness"},
+{"SLEEVE","n","climaterelatedness"},
+{"MIXING","n","climaterelatedness"},
+{"KETTLE","n","climaterelatedness"},
+{"PACKET","n","climaterelatedness"},
+{"PUDDLE","n","climaterelatedness"},
+{"LOWER","n","climaterelatedness"},
+{"CABLE","n","climaterelatedness"},
+{"UPPER","n","climaterelatedness"},
+{"LOCK","n","climaterelatedness"},
+{"GASOLINE","c","arousal"},
+{"OIL","c","arousal"},
+{"STORM","c","arousal"},
+{"EXTREME","c","arousal"},
+{"RESOURCES","c","arousal"},
+{"HURRICANE","c","arousal"},
+{"MELTING","c","arousal"},
+{"GLOBAL","c","arousal"},
+{"FLOODING","c","arousal"},
+{"CO2","c","arousal"},
+{"CARBON","c","arousal"},
+{"WARMING","c","arousal"},
+{"CLIMATE","c","arousal"},
+{"DRILLING","c","arousal"},
+{"HABITATS","c","arousal"},
+{"OZONE","c","arousal"},
+{"TYPHOON","c","arousal"},
+{"DROUGHT","c","arousal"},
+{"FOOTPRINT","c","arousal"},
+{"POLLUTION","c","arousal"},
+{"DIOXIDE","c","arousal"},
+{"WILDFIRE","c","arousal"},
+{"RAINSTORM","c","arousal"},
+{"GLACIER","c","arousal"},
+{"EMISSIONS","c","arousal"},
+{"DEPLETION","c","arousal"},
+{"HYDROCARBON","c","arousal"},
+{"EARTH","c","arousal"},
+{"GASOLINE","c","climaterelatedness"},
+{"OIL","c","climaterelatedness"},
+{"STORM","c","climaterelatedness"},
+{"EXTREME","c","climaterelatedness"},
+{"RESOURCES","c","climaterelatedness"},
+{"HURRICANE","c","climaterelatedness"},
+{"MELTING","c","climaterelatedness"},
+{"GLOBAL","c","climaterelatedness"},
+{"FLOODING","c","climaterelatedness"},
+{"CO2","c","climaterelatedness"},
+{"CARBON","c","climaterelatedness"},
+{"WARMING","c","climaterelatedness"},
+{"CLIMATE","c","climaterelatedness"},
+{"DRILLING","c","climaterelatedness"},
+{"HABITATS","c","climaterelatedness"},
+{"OZONE","c","climaterelatedness"},
+{"TYPHOON","c","climaterelatedness"},
+{"DROUGHT","c","climaterelatedness"},
+{"FOOTPRINT","c","climaterelatedness"},
+{"POLLUTION","c","climaterelatedness"},
+{"DIOXIDE","c","climaterelatedness"},
+{"WILDFIRE","c","climaterelatedness"},
+{"RAINSTORM","c","climaterelatedness"},
+{"GLACIER","c","climaterelatedness"},
+{"EMISSIONS","c","climaterelatedness"},
+{"DEPLETION","c","climaterelatedness"},
+{"HYDROCARBON","c","climaterelatedness"},
+{"EARTH","c","climaterelatedness"}};
+
+array<string>wordcategory_arousalratings[28*2]={
+"c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c",
+"n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n"};
+
+array<string>wordcategory_climaterelatednessratings[28*2]={
+"c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c","c","c",     "c","c","c",
+"n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n","n","n",     "n","n","n"};
+
+##########################################################################################################
+##########################################################################################################
+
+sub make_ratings begin
+
+likert_scale_better_vs_worse_pic.set_part_y(slider_outline,likert_scale_x);
+likert_scale_better_vs_worse_pic.set_part_y(slider,likert_scale_x);
+#mse.set_min_max(2,scale_y-scale_height/2,scale_y+scale_height/2); # axis 1 is x-axis, axis 2 is y-axis
+mse.set_min_max(1,scale_y-scale_height/2,scale_y+scale_height/2); # axis 1 is x-axis, axis 2 is y-axis
+
+
+	likert_scale_better_vs_worse_pic.set_part_x(slider_outline,scale_y);
+	likert_scale_better_vs_worse_pic.set_part_x(slider,scale_y);
+	mse.set_xy(scale_y,likert_scale_x);#( likert_scale_x, scale_y );
+
+
+new_response_count = 0;
+old_response_count = 0;
+
+	loop new_response_count = 0 until (new_response_count > old_response_count) begin
+		old_response_count=response_manager.response_data_count( );
+		likert_better_vs_worse_rating_trial.present();
+		mse.poll();
+		likert_scale_better_vs_worse_pic.set_part_x(slider_outline,mse.x());	
+		likert_scale_better_vs_worse_pic.set_part_x(slider,mse.x());		
+		new_response_count=response_manager.response_data_count( );
+   end; # end mouse loop
+ 
+	mouse_resp_y=(mse.x());	
+	last_bettervsworserating=mouse_resp_y;
+#	resp_code_event.set_event_code(ratingstomake[w][2]+"_"+ratingstomake[w][3]+"_"+ratingstomake[w][1]);
+#	resp_code_trial.present();
+#	resp_code_event.set_event_code(("rating_on_pixel_" + string(mouse_resp_y - scale_y) ));
+#	resp_code_trial.present();
+	
+	mse.set_min_max(2,-512,512); #(1,-512,512); # axis 1 is x-axis, axis 2 is y-axis
+	mse.set_min_max(1,-384,384); #(2,-384,384);
+end; #end sub
+##########################################################################################################
+##########################################################################################################
+##########################################################################################################
+
+instructions_trial.present();
+instructions2_trial.present();
+
+ratingstomake.shuffle();
+
+loop w=1 until w > 28*4 begin
+	wordtorate=ratingstomake[w][1];
+	
+	if ratingstomake[w][3]=="arousal" then
+		lower_scale_label_txt.set_caption("Not at all,"+"\n"+"(calming/boring)");
+		lower_scale_label_txt.redraw();
+		upper_scale_label_txt.set_caption("Very much,"+"\n"+"(exciting/agitating)");
+		upper_scale_label_txt.redraw();
+		questiontxt="How emotionally arousing (either good or bad) is this word? \n";
+	elseif ratingstomake[w][3]=="climaterelatedness" then
+		lower_scale_label_txt.set_caption("Not at all"+"\n"+" ");
+		lower_scale_label_txt.redraw();
+		upper_scale_label_txt.set_caption("Very much"+"\n"+" ");
+		upper_scale_label_txt.redraw();
+		questiontxt="How much is this word associated with climate change? \n";
+	end;
+	bettervsworserating_title_txt.set_caption(questiontxt+"\n"+wordtorate);
+	bettervsworserating_title_txt.redraw();
+	make_ratings();
+	
+		resp_code_event.set_event_code(ratingstomake[w][2]+"_"+ratingstomake[w][3]+"_"+ratingstomake[w][1]);
+	resp_code_trial.present();
+	resp_code_event.set_event_code(("rating_on_pixel_" + string(mouse_resp_y - scale_y) ));
+	resp_code_trial.present();
+	
+	w=w+1;
+end;
+
+lower_scale_label_txt.set_caption("Not at all \nconcerned"+"\n"+" ");
+lower_scale_label_txt.redraw();
+upper_scale_label_txt.set_caption("Extremely \nconcerned"+"\n"+" ");
+upper_scale_label_txt.redraw();
+middle_of_scale_label_1_txt.set_caption("Somewhat \nconcerned"+"\n"+" ");
+middle_of_scale_label_1_txt.redraw();
+middle_of_scale_label_2_txt.set_caption("Very \nconcerned"+"\n"+" ");
+middle_of_scale_label_2_txt.redraw();
+questiontxt="How concerned are you about climate change? \n";
+bettervsworserating_title_txt.set_caption(questiontxt+"\n");
+bettervsworserating_title_txt.redraw();
+make_ratings();
+resp_code_event.set_event_code(("climate_concern_rating_on_pixel_" + string(mouse_resp_y - scale_y) ));
+resp_code_trial.present();
+
+instructions_end_trial.present();
