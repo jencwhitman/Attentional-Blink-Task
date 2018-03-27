@@ -1,4 +1,4 @@
-For a detailed description of the Attentional Blink Task, see that paper at:
+For a detailed description of the Attentional Blink Task, see the relevant paper at:
 https://psyarxiv.com/8br26/
 
 To run the experiment and see what it's like to be a participant, download
